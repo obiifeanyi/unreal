@@ -22,22 +22,34 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//Setter Functions for UE Blueprint
+	UFUNCTION(BlueprintCallable, Category = "Tank")
+		void SetTurrent(UChildActorComponent* Turrent);
+	UFUNCTION(BlueprintCallable, Category = "Tank")
+		void SetBarrel(UChildActorComponent* Barrel);
+	UFUNCTION(BlueprintCallable, Category = "Tank")
+		void SetBody(UChildActorComponent* Body);
+
+	//Getter
+	float GetMovenementScale() const;
+
 private:
-
-	//Variables
+	//Variables to Hold Setter functions
 	UChildActorComponent* Turrent = nullptr;
+	UChildActorComponent* Barrel = nullptr;
+	UChildActorComponent* Body = nullptr;
 
-
-	//Functions
-	UFUNCTION(BlueprintCallable,Category="Tank")
-	void SetTurrent(UChildActorComponent* Turrent);
-
-	void RotateTurrent_CW();
-	void RotateTurret_CCW();
+	//Movement Functions
 	void RotateTurrent(float speed);
-	
+	void RotateBarrel(float speed);
+	void MoveBody(float speed);
+	void RotateBody(float speed);	
+
+	//TODO can't see Movement scale in BP. It is not in any category.
+	//Scale the Tank's movement amount.
+	UPROPERTY(EditAnywhere, Category = "Tank")
+		float MovementScale = 50;
 };

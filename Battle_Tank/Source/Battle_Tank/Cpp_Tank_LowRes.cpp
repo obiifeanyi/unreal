@@ -8,7 +8,6 @@ ACpp_Tank_LowRes::ACpp_Tank_LowRes()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -22,47 +21,64 @@ void ACpp_Tank_LowRes::BeginPlay()
 void ACpp_Tank_LowRes::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void ACpp_Tank_LowRes::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	InputComponent->BindAction("RotateTurret_CW", EInputEvent::IE_Pressed, this, &ACpp_Tank_LowRes::RotateTurrent_CW);
-	InputComponent->BindAction("RotateTurret_CCW", EInputEvent::IE_Pressed, this, &ACpp_Tank_LowRes::RotateTurret_CCW);
-
-	///Set an axis input for rotation.
-	//make the input.
-	//input should control rotation.(Make a function at is called)
+	
 	InputComponent->BindAxis("TurrentRotate", this, &ACpp_Tank_LowRes::RotateTurrent);
+	InputComponent->BindAxis("BarrelRotate", this, &ACpp_Tank_LowRes::RotateBarrel);
+	InputComponent->BindAxis("BodyMove", this, &ACpp_Tank_LowRes::MoveBody);
+	InputComponent->BindAxis("BodyRotate", this, &ACpp_Tank_LowRes::RotateBody);
 	
 }
 
-void ACpp_Tank_LowRes::SetTurrent(UChildActorComponent* BarrelInput)
+
+///Setter Functions
+void ACpp_Tank_LowRes::SetTurrent(UChildActorComponent* TurrentInput)
 {
-	Turrent = BarrelInput;
+	if (!TurrentInput) { return; }
+	Turrent = TurrentInput;
+}
+void ACpp_Tank_LowRes::SetBarrel(UChildActorComponent* BarrelInput)
+{
+	if (!BarrelInput) { return; }
+	Barrel = BarrelInput;
+}
+void ACpp_Tank_LowRes::SetBody(UChildActorComponent* BodyInput)
+{
+	if (!BodyInput) { return;}
+	Body = BodyInput;
 }
 
-void ACpp_Tank_LowRes::RotateTurrent_CW()
-{
-	if (!Turrent) return;
-	Turrent->AddRelativeRotation(FRotator(0.f, 45.f, 0.f));
-	UE_LOG(LogTemp, Warning, TEXT("Rotating"));
-	//AddLocalRotation
-}
 
-void ACpp_Tank_LowRes::RotateTurret_CCW()
-{
-	if (!Turrent) return;
-	Turrent->AddRelativeRotation(FRotator(0.f, -45.f, 0.f));
-	UE_LOG(LogTemp, Warning, TEXT("Rotating"));
-}
-
+///Movements Functions
 void ACpp_Tank_LowRes::RotateTurrent(float speed)
 {
 	if (!Turrent)return;
 	Turrent->AddRelativeRotation(FRotator(0.f, speed, 0.f));
 }
+void ACpp_Tank_LowRes::RotateBarrel(float speed)
+{
+	if (!Barrel)return;
+	Barrel->AddRelativeRotation(FRotator(speed,0.f,0.f));
+}
+void ACpp_Tank_LowRes::MoveBody(float speed)
+{
+	if (!Body) { return; }
+	Body->AddRelativeLocation(Body->GetForwardVector()*speed*GetMovenementScale());
+}
+void ACpp_Tank_LowRes::RotateBody(float speed)
+{
+	if (!Body) { return; }
+	Body->AddRelativeRotation(FRotator(0.f, speed, 0.f));
+}
 
+//Movement Scale
+float ACpp_Tank_LowRes::GetMovenementScale() const
+{
+	return MovementScale;
+}
 
