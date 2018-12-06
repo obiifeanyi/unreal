@@ -68,17 +68,13 @@ void ACpp_Tank_LowRes::RotateBarrel(float speed)
 void ACpp_Tank_LowRes::MoveBody(float speed)
 {
 	if (!Body) { return; }
-	Body->AddRelativeLocation(Body->GetForwardVector()*speed*GetMovenementScale());
+	auto TankMovement = Body->GetForwardVector() * GetWorld()->GetDeltaSeconds() * speed * MovementScale; //Body movement FPS independent
+	Body->AddRelativeLocation(TankMovement);
 }
+
 void ACpp_Tank_LowRes::RotateBody(float speed)
 {
 	if (!Body) { return; }
-	Body->AddRelativeRotation(FRotator(0.f, speed, 0.f));
+	auto TankRotation = GetWorld()->GetDeltaSeconds() * speed * RotationScale;
+	Body->AddRelativeRotation(FRotator(0.f, TankRotation, 0.f));
 }
-
-//Movement Scale
-float ACpp_Tank_LowRes::GetMovenementScale() const
-{
-	return MovementScale;
-}
-

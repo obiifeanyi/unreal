@@ -33,9 +33,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tank")
 		void SetBody(UChildActorComponent* Body);
 
-	//Getter
-	float GetMovenementScale() const;
-
 private:
 	//Variables to Hold Setter functions
 	UChildActorComponent* Turrent = nullptr;
@@ -46,10 +43,11 @@ private:
 	void RotateTurrent(float speed);
 	void RotateBarrel(float speed);
 	void MoveBody(float speed);
-	void RotateBody(float speed);	
+	void RotateBody(float speed);
 
-	//TODO can't see Movement scale in BP. It is not in any category.
-	//Scale the Tank's movement amount.
+	//Scale the Tank's movement and Rotation Amount.
 	UPROPERTY(EditAnywhere, Category = "Tank")
-		float MovementScale = 50;
+	float MovementScale = 1500;
+	UPROPERTY(EditAnywhere, Category = "Tank")
+	float RotationScale = 100;
 };
