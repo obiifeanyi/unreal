@@ -1,16 +1,24 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "HR_TankAiController.h"
+#include "../Public/HR_TankAiController.h"
 
 //begin play
 void AHR_TankAiController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Ai is alive"));
+	AHR_Tank* ControlledTank = GetControlledTank();
+	AHR_Tank* PlayerTank = GetPlayerTank();
+	UE_LOG(LogTemp, Warning, TEXT("Controlled tank is %s and the player is %s"), *(ControlledTank->GetName()),*(GetPlayerTank()->GetName()));
 	
 }
-//possess a tank
-//log out tank possessd
 
 
+AHR_Tank * AHR_TankAiController::GetControlledTank() const
+{
+	return Cast<AHR_Tank>(GetPawn());
+}
 
+AHR_Tank* AHR_TankAiController::GetPlayerTank() const
+{
+	return Cast<AHR_Tank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+}

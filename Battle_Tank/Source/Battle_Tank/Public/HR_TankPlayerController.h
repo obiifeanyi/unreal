@@ -19,9 +19,18 @@ class BATTLE_TANK_API AHR_TankPlayerController : public APlayerController
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
 
 private:
 	AHR_Tank* GetControlledTank() const;
-	
+
+
+	UPROPERTY(EditAnywhere, category = "Tank")
+		float Reach = 100000;
+
+public:
+	///Will make the tank's turrent turn and look at a position
+	FVector AimAtLocation();
 	
 };

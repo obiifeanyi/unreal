@@ -17,8 +17,17 @@ class BATTLE_TANK_API AHR_TankAiController : public AAIController
 
 public:
 	virtual void BeginPlay() override;
+
+	AHR_Tank* GetPlayerTank() const;
 	
+private:
+
+	//Get the controlled Tank of the AI
+	AHR_Tank* GetControlledTank() const;
+
+
 	
+
 	
 	
 };
