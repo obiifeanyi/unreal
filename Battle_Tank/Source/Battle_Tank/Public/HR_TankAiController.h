@@ -15,16 +15,18 @@ class BATTLE_TANK_API AHR_TankAiController : public AAIController
 {
 	GENERATED_BODY()
 
-public:
-	virtual void BeginPlay() override;
 
-	AHR_Tank* GetPlayerTank() const;
-	
 private:
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	//Get the controlled Tank of the AI
 	AHR_Tank* GetControlledTank() const;
 
+	//Get the player Tank in the world controlled by human.
+	AHR_Tank* GetPlayerTank() const;
+	
 
 	
 

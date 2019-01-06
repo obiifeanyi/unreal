@@ -23,14 +23,30 @@ protected:
 
 
 private:
+
 	AHR_Tank* GetControlledTank() const;
 
+	//Returns the cross hair position in relation to realworld.
+	void AimTowardCrossHair();
+
+	//return true if hit point in world and OUT a value parameter to hitLocation.
+	bool GetSightAimRayHitLocation(FVector& HitLocation) const;
+
+	bool GetLookDirection(FVector2D ScreenPosition, FVector& LookAtDirection) const;
+
+	bool RayTraceLookDirectionToHitLocation(FVector, FVector&)const;
 
 	UPROPERTY(EditAnywhere, category = "Tank")
-		float Reach = 100000;
+		float Reach = 100000; //TODO Reach should be a Tank pawn property that is public.
+
+	UPROPERTY(EditAnywhere, category = "Tank")
+		float CrossHairXLocation = 0.5;
+
+	UPROPERTY(EditAnywhere, category = "Tank")
+		float CrossHairYLocation = 0.333;
+
 
 public:
-	///Will make the tank's turrent turn and look at a position
-	FVector AimAtLocation();
 	
+
 };

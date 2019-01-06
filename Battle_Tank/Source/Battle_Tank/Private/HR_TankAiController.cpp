@@ -6,10 +6,27 @@
 void AHR_TankAiController::BeginPlay()
 {
 	Super::BeginPlay();
-	AHR_Tank* ControlledTank = GetControlledTank();
-	AHR_Tank* PlayerTank = GetPlayerTank();
-	UE_LOG(LogTemp, Warning, TEXT("Controlled tank is %s and the player is %s"), *(ControlledTank->GetName()),*(GetPlayerTank()->GetName()));
-	
+	auto ControlledTank = GetControlledTank();
+	auto PlayerTank = GetPlayerTank();
+
+	if (!PlayerTank || !ControlledTank)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Controlled tank is Can't find player thank"));
+	}
+ 	else
+ 	{
+ 		UE_LOG(LogTemp, Warning, TEXT("Controlled tank is %s and the player is %s"), *(ControlledTank->GetName()), *(PlayerTank->GetName()));
+ 	}
+
+}
+
+void AHR_TankAiController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (GetPlayerTank())
+	{
+		GetControlledTank()->TankAimAt(GetPlayerTank()->GetActorLocation());
+	}
 }
 
 
@@ -20,5 +37,8 @@ AHR_Tank * AHR_TankAiController::GetControlledTank() const
 
 AHR_Tank* AHR_TankAiController::GetPlayerTank() const
 {
-	return Cast<AHR_Tank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto PlayerPawn =GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerPawn) { return nullptr; }
+	return Cast<AHR_Tank>(PlayerPawn);
+	return nullptr;
 }
