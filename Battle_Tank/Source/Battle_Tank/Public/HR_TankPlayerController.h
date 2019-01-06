@@ -30,14 +30,14 @@ private:
 	void AimTowardCrossHair();
 
 	//return true if hit point in world and OUT a value parameter to hitLocation.
-	bool GetSightAimRayHitLocation(FVector& HitLocation) const;
+	bool GetSightAimRay(FVector& HitLocation) const;
 
 	bool GetLookDirection(FVector2D ScreenPosition, FVector& LookAtDirection) const;
 
 	bool RayTraceLookDirectionToHitLocation(FVector, FVector&)const;
 
 	UPROPERTY(EditAnywhere, category = "Tank")
-		float Reach = 100000; //TODO Reach should be a Tank pawn property that is public.
+		float Reach = 1000000; //TODO Reach should be a Tank pawn property that is public.
 
 	UPROPERTY(EditAnywhere, category = "Tank")
 		float CrossHairXLocation = 0.5;

@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+
 #include "TankAimAtComponent.h"
+#include "TankBarrel.h"
 #include <Kismet/GameplayStatics.h>
+
 
 
 // Sets default values for this component's properties
@@ -13,7 +16,6 @@ UTankAimAtComponent::UTankAimAtComponent()
 
 	// ...
 }
-
 
 // Called when the game starts
 void UTankAimAtComponent::BeginPlay()
@@ -44,36 +46,40 @@ void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
 			OutProjectileVelocity,
 			Startlocation,
 			Endlocation,
-			LauchSpeed/*,																		  Should be buggy.
+			LauchSpeed,																		  
 			false,
 			0,
 			0,
-			ESuggestProjVelocityTraceOption::DoNotTrace*/
+			ESuggestProjVelocityTraceOption::DoNotTrace
 		);
 
 	FVector AimDirection = OutProjectileVelocity.GetSafeNormal();
 
-	//UE_LOG(LogTemp, Warning, TEXT("ProjectileVelocity at is here %s with this LauchSpeed %f"),*OutProjectileVelocity.ToString(),LauchSpeed)
+	
 	if(bHasAim)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Aimat at is here %s with this LauchSpeed %f"), *AimDirection.ToString(), LauchSpeed)
+		//UE_LOG(LogTemp, Warning, TEXT("Aimat at is here %s with this LauchSpeed %f"), *AimDirection.ToString(), LauchSpeed)
 		MoveBarrelTowards(AimDirection);
+		
 	}
 
 }
 
-void UTankAimAtComponent::BarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
 
 void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	//get initial position
-	FRotator BarrelInitialRotation = Barrel->GetForwardVector().Rotation();
-	//Find delta between initial rotation and desired rotation
-	FRotator deltaRotation = BarrelInitialRotation - AimDirection.Rotation();
-	//Use the Delta rotation to move barrel.
-	//move barrel to desired position
-	Barrel->AddLocalRotation(deltaRotation);
+	if (!Barrel)return;
+	//Elevate(float RelativeSpeed);
 }
+
+// FRotator BarrelInitialRotation = Barrel->GetForwardVector().Rotation();
+// FRotator deltaRotation = BarrelInitialRotation - AimDirection.Rotation();
+// move barrel to desired position
+// Barrel->AddLocalRotation(deltaRotation);
+// FRotator BarrelRotation = FRotator(AimDirection.Rotation().Pitch, 0.f, 0.f);
+// Barrel->SetRelativeRotation(BarrelRotation);
+// UE_LOG(LogTemp, Warning, TEXT("Help Me ME ME"));

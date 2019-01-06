@@ -25,7 +25,7 @@ void AHR_TankAiController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	if (GetPlayerTank())
 	{
-		GetControlledTank()->TankAimAt(GetPlayerTank()->GetActorLocation());
+		//GetControlledTank()->TankAimAt(GetPlayerTank()->GetActorLocation());												  commented to stop AI tanks from logging.
 	}
 }
 

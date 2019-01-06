@@ -13,43 +13,7 @@ void AHR_TankPlayerController::BeginPlay()
 void AHR_TankPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
-// //Aim into world from CrossHair
-// 		//get the crosshair's position on the screen
-// 		int32 ViewportWidth, ViewportHeight;
-// 		GetViewportSize(ViewportWidth, ViewportHeight);
-// 		FVector2D CrossHairScreenPosition = FVector2D(ViewportWidth *CrossHairXLocation, ViewportHeight * CrossHairYLocation);
-// 		
-// 	
-// 		//Convert screen position to POV direction.
-// 		FVector WorldLocation,SightDirection;
-// 		auto bDeprojected = DeprojectScreenPositionToWorld(CrossHairScreenPosition.X, CrossHairScreenPosition.Y, WorldLocation, SightDirection);
-// 	
-// 		FHitResult RayTrace;
-// 		FVector HitLocation;
-// 		//Ray trace from cross hair to hit point in world world
-// 		if (bDeprojected)
-// 		{
-// 			FVector Start = PlayerCameraManager->GetCameraLocation();
-// 			FVector End = Start + SightDirection * Reach;
-// 			
-// 			if (GetWorld()->LineTraceSingleByChannel(RayTrace, Start, End, ECollisionChannel::ECC_Visibility)) //Set Hitlocation to raytrace location
-// 			{
-// 				HitLocation = RayTrace.Location;
-// 			}
-// 			else HitLocation = FVector(0.0f); //Hitlocation out of bounds.
-// 		}
-// 		UE_LOG(LogTemp, Warning, TEXT("We are hitting location %s"), *HitLocation.ToString()) //Logging out raytrace hit location
-// 		
-// 		//Calling Control Tank function
-// 		AHR_Tank* ControllerTank = GetControlledTank();
-// 		if (ControllerTank)
-// 		{
-// 			ControllerTank->TankAimAt(HitLocation);
-// 		}
-
 	AimTowardCrossHair();
-
 }
 
 AHR_Tank* AHR_TankPlayerController::GetControlledTank() const
@@ -64,13 +28,13 @@ void AHR_TankPlayerController::AimTowardCrossHair()
 	if (!GetControlledTank()) { return; }
 
 	FVector HitLocation; //OUT parameter
-	if (GetSightAimRayHitLocation(HitLocation))
+	if (GetSightAimRay(HitLocation))
 	{
 		GetControlledTank()->TankAimAt(HitLocation);
 	}
 }
 
-bool AHR_TankPlayerController::GetSightAimRayHitLocation(FVector& HitLocation) const
+bool AHR_TankPlayerController::GetSightAimRay(FVector& HitLocation) const
 {
 	//Get 2d location of cross hair on screen
 	int32 ViewportWidth, ViewportHeight;

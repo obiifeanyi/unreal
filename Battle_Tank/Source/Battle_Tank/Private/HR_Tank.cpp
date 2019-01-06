@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HR_Tank.h"
+#include "TankBarrel.h"
 #include "TankAimAtComponent.h"
 
 
@@ -8,7 +9,7 @@
 AHR_Tank::AHR_Tank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	//construct component
 	AimingComponent = CreateDefaultSubobject<UTankAimAtComponent>(FName("AimAtComponent"));
@@ -25,11 +26,6 @@ void AHR_Tank::BeginPlay()
 	AimingComponent->BarrelReference(Barrel);
 }
 
-// Called every frame
-void AHR_Tank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
 
 // Called to bind functionality to input
 void AHR_Tank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -44,7 +40,7 @@ void AHR_Tank::TankAimAt(FVector HitLocation)
 	AimingComponent->TankAimComp(HitLocation, LauchSpeed);
 }
 
-void AHR_Tank::SetBarrel(UStaticMeshComponent* BarrelToSet)
+void AHR_Tank::SetBarrel(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
