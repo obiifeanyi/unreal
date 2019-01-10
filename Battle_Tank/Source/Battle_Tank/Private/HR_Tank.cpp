@@ -2,6 +2,7 @@
 
 #include "HR_Tank.h"
 #include "TankBarrel.h"
+#include "TankTurrent.h"
 #include "TankAimAtComponent.h"
 
 
@@ -43,4 +44,9 @@ void AHR_Tank::TankAimAt(FVector HitLocation)
 void AHR_Tank::SetBarrel(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void AHR_Tank::SetTurrent(UTankTurrent* TurrentToSet)
+{
+	AimingComponent->TurrentReference(TurrentToSet);
 }

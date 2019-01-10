@@ -23,8 +23,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		float MaxDegeePerSecond = 20.f; //TODO find insensible value.
 	UPROPERTY(EditAnywhere)
-		float MaxElevationDegree = 0; //TODO set ideal
+		float MaxElevationDegree = 50.f; //TODO set ideal
 	UPROPERTY(EditAnywhere)
-		float MinElevationDegree = 0; //TODO set ideal
-
+		float MinElevationDegree = 0.f; //TODO set ideal
 };

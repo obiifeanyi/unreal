@@ -8,6 +8,7 @@
 
 class UTankAimAtComponent;
 class UTankBarrel;
+class UTankTurrent;
 
 UCLASS()
 class BATTLE_TANK_API AHR_Tank : public APawn
@@ -28,6 +29,9 @@ public:
 	//
 	UFUNCTION(BlueprintCallable, Category = "Tank")
 	void SetBarrel(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Tank")
+		void SetTurrent(UTankTurrent* TurrentToSet);
 
 protected:
 	//

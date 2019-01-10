@@ -3,6 +3,7 @@
 
 #include "TankAimAtComponent.h"
 #include "TankBarrel.h"
+#include "TankTurrent.h"
 #include <Kismet/GameplayStatics.h>
 
 
@@ -70,10 +71,19 @@ void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimAtComponent::TurrentReference(UTankTurrent* TurrentToSet)
+{
+	Turrent = TurrentToSet;
+}
+
 void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!Turrent)return;
+	Turrent->Yaw(1);
+
 	if (!Barrel)return;
-	//Elevate(float RelativeSpeed);
+	Barrel->Elevate(1);
+
 }
 
 // FRotator BarrelInitialRotation = Barrel->GetForwardVector().Rotation();
