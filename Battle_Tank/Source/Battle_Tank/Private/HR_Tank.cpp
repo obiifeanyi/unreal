@@ -2,8 +2,10 @@
 
 #include "HR_Tank.h"
 #include "TankBarrel.h"
+#include "Projectile.h"
 #include "TankTurrent.h"
 #include "TankAimAtComponent.h"
+//#include <GameFramework/Actor.h>
 
 
 // Sets default values
@@ -32,6 +34,8 @@ void AHR_Tank::BeginPlay()
 void AHR_Tank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	//PlayerInputComponent->BindAction("Fire", EInputEvent::IE_Pressed, this, &AHR_Tank::Fire);
 }
 
 
@@ -41,12 +45,35 @@ void AHR_Tank::TankAimAt(FVector HitLocation)
 	AimingComponent->TankAimComp(HitLocation, LauchSpeed);
 }
 
+void AHR_Tank::Fire()
+{
+
+	if (!Barrel)return;
+	FTransform SpawnTransform = FTransform(
+		Barrel->GetSocketRotation("ProjectileStart"),
+		Barrel->GetSocketLocation("ProjectileStart")
+		);
+
+	FVector Location(0.0f, 0.0f, 50.0f);
+	FRotator Rotation(0.0f, 0.0f, 0.0f);
+	FActorSpawnParameters SpawnInfo;
+	//GetWorld()->SpawnActor<AProjectile>(BP_Projectile,Location, Rotation, SpawnInfo);
+	GetWorld()->SpawnActor<AProjectile>(BPProjectile, Barrel->GetSocketLocation("ProjectileStart"), Barrel->GetSocketRotation("ProjectileStart"), SpawnInfo);
+
+	
+	UE_LOG(LogTemp, Warning, TEXT("Hello %f"), GetWorld()->GetTimeSeconds());
+
+}
+
 void AHR_Tank::SetBarrel(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet)return;
 	Barrel = BarrelToSet;
 }
 
 void AHR_Tank::SetTurrent(UTankTurrent* TurrentToSet)
 {
+	if (!TurrentToSet)return;
 	AimingComponent->TurrentReference(TurrentToSet);
 }
+

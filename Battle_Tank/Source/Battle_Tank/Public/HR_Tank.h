@@ -9,6 +9,7 @@
 class UTankAimAtComponent;
 class UTankBarrel;
 class UTankTurrent;
+class AProjectile;
 
 UCLASS()
 class BATTLE_TANK_API AHR_Tank : public APawn
@@ -20,7 +21,12 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	//Static mesh barrel from tank
 	UTankBarrel* Barrel = nullptr;
-
+	//Projectile from tank
+	UPROPERTY(EditAnywhere, Category = "Tank")
+		TSubclassOf<AProjectile> BPProjectile;
+	//
+	UPROPERTY(EditAnywhere, Category = "Tank")
+		float LauchSpeed = 1000; // TODO Find sensible value
 public:
 	// Sets default values for this pawn's properties
 	AHR_Tank();
@@ -31,18 +37,15 @@ public:
 	void SetBarrel(UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Tank")
-		void SetTurrent(UTankTurrent* TurrentToSet);
+	void SetTurrent(UTankTurrent* TurrentToSet);
 
+	UFUNCTION(BlueprintCallable, Category = "Tank")
+	void Fire();
 protected:
 	//
 	virtual void BeginPlay() override;
 	//
 	UTankAimAtComponent* AimingComponent = nullptr;
-	//
-	UPROPERTY(EditAnywhere)
-		float LauchSpeed = 1000; // TODO Find sensible value	
-
-
 
 	
 };

@@ -37,6 +37,8 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
 {
+	if (!Barrel)return;
+
 
 	FVector OutProjectileVelocity = FVector(1.0f); //OUT
 	FVector Startlocation = Barrel->GetSocketLocation(FName("ProjectileStart")); //Socket location of barrel.
@@ -68,11 +70,13 @@ void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
 
 void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet)return;
 	Barrel = BarrelToSet;
 }
 
 void UTankAimAtComponent::TurrentReference(UTankTurrent* TurrentToSet)
 {
+	if (!TurrentToSet)return;
 	Turrent = TurrentToSet;
 }
 
