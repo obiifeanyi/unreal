@@ -21,15 +21,8 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	//Get the controlled Tank of the AI
-	AHR_Tank* GetControlledTank() const;
-
-	//Get the player Tank in the world controlled by human.
-	AHR_Tank* GetPlayerTank() const;
-	
-
-	
-
-	
-	
+	//Controlled Tank
+	AHR_Tank* ControlledTank = nullptr;
+	//Player Tank
+	AHR_Tank* PlayerTank = nullptr;	
 };

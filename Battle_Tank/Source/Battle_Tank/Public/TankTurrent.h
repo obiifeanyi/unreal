@@ -20,7 +20,7 @@ class BATTLE_TANK_API UTankTurrent : public UStaticMeshComponent
 
 	private:
 		UPROPERTY(EditAnywhere)
-			float MaxDegeePerSecond = 20.f; //TODO find insensible value.
+			float MaxDegeePerSecond = 35.f; //TODO find insensible value.
 		
 
 	

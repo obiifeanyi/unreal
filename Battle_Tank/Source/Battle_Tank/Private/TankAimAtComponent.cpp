@@ -35,10 +35,21 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
+void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
+{
+	if (!BarrelToSet)return;
+	Barrel = BarrelToSet;
+}
+
+void UTankAimAtComponent::TurrentReference(UTankTurrent* TurrentToSet)
+{
+	if (!TurrentToSet)return;
+	Turrent = TurrentToSet;
+}
+
 void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
 {
 	if (!Barrel)return;
-
 
 	FVector OutProjectileVelocity = FVector(1.0f); //OUT
 	FVector Startlocation = Barrel->GetSocketLocation(FName("ProjectileStart")); //Socket location of barrel.
@@ -61,39 +72,19 @@ void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
 	
 	if(bHasAim)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Aimat at is here %s with this LauchSpeed %f"), *AimDirection.ToString(), LauchSpeed)
-		MoveBarrelTowards(AimDirection);
-		
+		MoveBarrelTowards(AimDirection);		
 	}
-
-}
-
-void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
-{
-	if (!BarrelToSet)return;
-	Barrel = BarrelToSet;
-}
-
-void UTankAimAtComponent::TurrentReference(UTankTurrent* TurrentToSet)
-{
-	if (!TurrentToSet)return;
-	Turrent = TurrentToSet;
 }
 
 void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	//Workout difference between current rotation and AimDirection
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+
 	if (!Turrent)return;
-	Turrent->Yaw(1);
-
+	Turrent->Yaw(DeltaRotator.Yaw);
 	if (!Barrel)return;
-	Barrel->Elevate(1);
-
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
-
-// FRotator BarrelInitialRotation = Barrel->GetForwardVector().Rotation();
-// FRotator deltaRotation = BarrelInitialRotation - AimDirection.Rotation();
-// move barrel to desired position
-// Barrel->AddLocalRotation(deltaRotation);
-// FRotator BarrelRotation = FRotator(AimDirection.Rotation().Pitch, 0.f, 0.f);
-// Barrel->SetRelativeRotation(BarrelRotation);
-// UE_LOG(LogTemp, Warning, TEXT("Help Me ME ME"));
