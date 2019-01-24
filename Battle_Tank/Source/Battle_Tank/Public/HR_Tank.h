@@ -10,6 +10,7 @@ class UTankAimAtComponent;
 class UTankBarrel;
 class UTankTurrent;
 class AProjectile;
+class UTankMovementComponent;
 
 UCLASS()
 class BATTLE_TANK_API AHR_Tank : public APawn
@@ -42,10 +43,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tank")
 	void Fire();
 protected:
-	//
+
 	virtual void BeginPlay() override;
 	//
 	UTankAimAtComponent* AimingComponent = nullptr;
-
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* MovementComponent = nullptr;
 	
 };

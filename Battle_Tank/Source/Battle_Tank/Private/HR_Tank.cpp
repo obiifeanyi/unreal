@@ -5,6 +5,7 @@
 #include "Projectile.h"
 #include "TankTurrent.h"
 #include "TankAimAtComponent.h"
+#include "TankMovementComponent.h"
 
 
 // Sets default values
@@ -14,6 +15,7 @@ AHR_Tank::AHR_Tank()
 	PrimaryActorTick.bCanEverTick = false;
 	//
 	AimingComponent = CreateDefaultSubobject<UTankAimAtComponent>(FName("AimAt Component"));
+	//MovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
