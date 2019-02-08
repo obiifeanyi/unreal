@@ -11,7 +11,7 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//create a projectile movement component.
-	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement")); //TEST using FName is the only way to make LaunchProejct to work.
+	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Movement"); //TEST using FName is the only way to make LaunchProejct to work.
 	ProjectileMovement->bAutoActivate = false;
 }
 

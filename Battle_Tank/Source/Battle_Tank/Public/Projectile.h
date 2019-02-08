@@ -29,6 +29,7 @@ public:
 
 
 private:
+	//UPROPERTY(VisibleAnywhere)
 	UProjectileMovementComponent* ProjectileMovement= nullptr;
 	
 	

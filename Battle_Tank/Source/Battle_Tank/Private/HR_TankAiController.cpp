@@ -17,7 +17,7 @@ void AHR_TankAiController::Tick(float DeltaSeconds)
 	if (ControlledTank)
 	{
 		ControlledTank->TankAimAt(PlayerTank->GetActorLocation());
-		//ControlledTank->Fire();
+		ControlledTank->Fire();
 	}
 
 

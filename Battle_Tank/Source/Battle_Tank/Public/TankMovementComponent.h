@@ -8,31 +8,30 @@
 
 class UTankTracks;
 /**
- * 
+	Handle the Forward and Rotational movement of the tank around the world.
+	The AI tank uses the same movement mechanism. The data from NavMovementComponent is used
+	as driving force to throw.
  */
-UCLASS(meta = (BlueprintSpawnableComponent))
+UCLASS()
 class BATTLE_TANK_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
-
-	//get the tracks store in a variable
-	//TODO make a function to initalize
 protected:
-	//make both track to move forward
+	//Throws -1 to 1 into the throttle component to move the tank forward or back
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendedMovementForward(float Throw);
+	//Throws -1 to 1 into the throttle component to turn the tank left or right
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendedMovementTurn(float Throw);
 
-
+private:
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)override; //For AI tanks to navigate.
 	UTankTracks* LeftTrack = nullptr;
 	UTankTracks* RightTrack = nullptr;
 
-private:
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)override;
-
 public:
-	UFUNCTION(BlueprintCallable, Category = "Input")
+	//SetsUp the Left and Right Throttle components so function can be called of it.
+	UFUNCTION(BlueprintCallable, Category = "SetUp")
 	void Initialzier(UTankTracks* LeftTrack, UTankTracks* RightTrack);
 
 	
