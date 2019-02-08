@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// A Fun open field tank game with wacky controls.
 
 #include "TankTracks.h"
 
@@ -7,9 +7,6 @@
 
 void UTankTracks::SetThrottle(float speed)
 {
-	
-
-	//apply force on track
 	//set amount of force to apply
 	FVector AppliedForce = GetForwardVector() * MAXSPEED * speed * GetWorld()->GetDeltaSeconds();
 	//get where to apply the force

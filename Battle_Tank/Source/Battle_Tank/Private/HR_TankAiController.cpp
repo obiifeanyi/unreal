@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// A Fun open field tank game with wacky controls.
 
 #include "../Public/HR_TankAiController.h"
 
@@ -19,6 +19,12 @@ void AHR_TankAiController::Tick(float DeltaSeconds)
 		ControlledTank->TankAimAt(PlayerTank->GetActorLocation());
 		//ControlledTank->Fire();
 	}
+
+
+	MoveToActor(PlayerTank,1000);
+
 }
+
+
 
 

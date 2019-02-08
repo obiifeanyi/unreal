@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// A Fun open field tank game with wacky controls.
 
 #include "TankMovementComponent.h"
 #include "TankTracks.h"
@@ -11,7 +11,7 @@ void UTankMovementComponent::IntendedMovementForward(float Throw)
 	RightTrack->SetThrottle(Throw);
 }
 
-void UTankMovementComponent::IntendedMovementTurnRight(float Throw)
+void UTankMovementComponent::IntendedMovementTurn(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Moving Front %f"), Throw);
 	if (!LeftTrack || !RightTrack)return; //If not set in BP exit
@@ -26,4 +26,21 @@ void UTankMovementComponent::Initialzier(UTankTracks* LeftTrack, UTankTracks* Ri
 	this->RightTrack = RightTrack;
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	//Move Ai tank forward and backward to get to the player
+	auto DesireToMoveForward = FVector::DotProduct(
+			GetOwner()->GetActorForwardVector().GetSafeNormal(),
+			MoveVelocity.GetSafeNormal()
+		);
+	IntendedMovementForward(DesireToMoveForward);
+
+	//Turn the tank left when target is to the left
+	auto DesireToTurnRight = FVector::CrossProduct(
+			GetOwner()->GetActorForwardVector().GetSafeNormal(),
+			MoveVelocity.GetSafeNormal()
+		).Z;
+	IntendedMovementTurn(DesireToTurnRight*2); //TODO the scale needed to be higher for tank to turn better.
+	//UE_LOG(LogTemp, Warning, TEXT("DesireToTurnRight is %f"), DesireToTurnRight);
+}
 

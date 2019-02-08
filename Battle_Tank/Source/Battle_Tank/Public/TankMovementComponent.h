@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// A Fun open field tank game with wacky controls.
 
 #pragma once
 
@@ -22,13 +22,15 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendedMovementForward(float Throw);
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	void IntendedMovementTurnRight(float Throw);
+	void IntendedMovementTurn(float Throw);
 
 
 	UTankTracks* LeftTrack = nullptr;
 	UTankTracks* RightTrack = nullptr;
 
 private:
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)override;
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Initialzier(UTankTracks* LeftTrack, UTankTracks* RightTrack);

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// A Fun open field tank game with wacky controls.
 
 #pragma once
 
@@ -20,7 +20,6 @@ private:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-
 	//Controlled Tank
 	AHR_Tank* ControlledTank = nullptr;
 	//Player Tank
