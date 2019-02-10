@@ -12,7 +12,7 @@ class UTankTracks;
 	The AI tank uses the same movement mechanism. The data from NavMovementComponent is used
 	as driving force to throw.
  */
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLE_TANK_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()

@@ -13,17 +13,12 @@ AHR_Tank::AHR_Tank()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//
-	AimingComponent = CreateDefaultSubobject<UTankAimAtComponent>(FName("AimAt Component"));
-	//MovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
 void AHR_Tank::BeginPlay()
 {
-	Super::BeginPlay();	
-	if (!Barrel) { return; }
-	AimingComponent->BarrelReference(Barrel);
+	Super::BeginPlay();
 }
 
 // Called to bind functionality to input
@@ -41,7 +36,7 @@ void AHR_Tank::TankAimAt(FVector HitLocation)
 
 void AHR_Tank::Fire(){
 
-	if (!Barrel)return;	
+	//TODO Protect the Fire function
 	FActorSpawnParameters SpawnInfo;
 	//GetWorld()->SpawnActor<AProjectile>(BP_Projectile,Location, Rotation, SpawnInfo);
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>
@@ -55,15 +50,4 @@ void AHR_Tank::Fire(){
 	Projectile->LaunchProjectile(LauchSpeed);
 }
 
-void AHR_Tank::SetBarrel(UTankBarrel* BarrelToSet)
-{
-	if (!BarrelToSet)return;
-	Barrel = BarrelToSet;
-}
-
-void AHR_Tank::SetTurrent(UTankTurrent* TurrentToSet)
-{
-	if (!TurrentToSet)return;
-	AimingComponent->TurrentReference(TurrentToSet);
-}
 

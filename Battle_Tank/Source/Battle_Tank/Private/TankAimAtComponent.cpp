@@ -27,6 +27,13 @@ void UTankAimAtComponent::BeginPlay()
 	
 }
 
+void UTankAimAtComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurrent* TurrentToSet)
+{
+	if(!(BarrelToSet || TurrentToSet))return;
+	Barrel = BarrelToSet;
+	Turrent = TurrentToSet;
+}
+
 // Called every frame
 void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -38,18 +45,6 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 EFiringState UTankAimAtComponent::GetFiringState() const
 {
 	return FiringState;
-}
-
-void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
-{
-	if (!BarrelToSet)return;
-	Barrel = BarrelToSet;
-}
-
-void UTankAimAtComponent::TurrentReference(UTankTurrent* TurrentToSet)
-{
-	if (!TurrentToSet)return;
-	Turrent = TurrentToSet;
 }
 
 void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
