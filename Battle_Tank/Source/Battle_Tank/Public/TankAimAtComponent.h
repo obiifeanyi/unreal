@@ -9,6 +9,14 @@
 class UTankBarrel;
 class UTankTurrent;
 
+UENUM()
+enum class EFiringState : uint8
+{
+	Aim,
+	Locked,
+	Reloading
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLE_TANK_API UTankAimAtComponent : public UActorComponent
 {
@@ -21,13 +29,14 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	//Gets the firing stated to pass to UI aim
+	UFUNCTION(BlueprintCallable)
+		EFiringState GetFiringState () const;
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
-	//Tank Aimming Component
+	//Tank Aiming Component
 	void TankAimComp(FVector AimAt, float LauchSpeed);
 	void BarrelReference(UTankBarrel* BarrelToSet);
 	void TurrentReference(UTankTurrent* TurrentToSet);
@@ -36,4 +45,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurrent* Turrent = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
+	EFiringState FiringState = EFiringState::Locked;
 };

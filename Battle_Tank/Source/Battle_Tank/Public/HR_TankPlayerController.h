@@ -20,11 +20,12 @@ class BATTLE_TANK_API AHR_TankPlayerController : public APlayerController
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	AHR_Tank* GetControlledTank() const;
 
 private:
 
-	AHR_Tank* GetControlledTank() const;
 
 	//Returns the cross hair position in relation to realworld.
 	void AimTowardCrossHair();

@@ -35,6 +35,11 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
+EFiringState UTankAimAtComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 void UTankAimAtComponent::BarrelReference(UTankBarrel* BarrelToSet)
 {
 	if (!BarrelToSet)return;
