@@ -31,6 +31,7 @@ void AHR_Tank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //Get Hitlocation from the controller
 void AHR_Tank::TankAimAt(FVector HitLocation)
 {
+	if(!AimingComponent)return;
 	AimingComponent->TankAimComp(HitLocation, LauchSpeed);
 }
 
