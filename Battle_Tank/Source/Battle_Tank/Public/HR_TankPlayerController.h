@@ -7,6 +7,8 @@
 #include "GameFramework/PlayerController.h"
 #include "HR_TankPlayerController.generated.h"
 
+class TankAimAtComponent;
+
 /**
  * 
  */
@@ -14,8 +16,6 @@ UCLASS()
 class BATTLE_TANK_API AHR_TankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
-
 
 protected:
 	virtual void BeginPlay() override;
@@ -23,6 +23,11 @@ protected:
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	AHR_Tank* GetControlledTank() const;
+
+	//Blueprint Event to find Aiming Component
+	UFUNCTION(BlueprintImplementableEvent,Category = "SetUp")
+	void FoundAimingComponent(UTankAimAtComponent* AimingCompRef);
+
 
 private:
 
@@ -45,9 +50,5 @@ private:
 
 	UPROPERTY(EditAnywhere, category = "Tank")
 		float CrossHairYLocation = 0.333;
-
-
-public:
-	
 
 };

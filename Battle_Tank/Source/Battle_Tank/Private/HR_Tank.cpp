@@ -13,12 +13,14 @@ AHR_Tank::AHR_Tank()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+	UE_LOG(LogTemp,Warning,TEXT("DONKEY:Tank_cpp Constructor"))
 }
 
 // Called when the game starts or when spawned
 void AHR_Tank::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("DONKEY:Tank_cpp BeginPlay"))
 }
 
 // Called to bind functionality to input
@@ -36,7 +38,7 @@ void AHR_Tank::TankAimAt(FVector HitLocation)
 }
 
 void AHR_Tank::Fire(){
-
+	if(!AimingComponent)return;
 	//TODO Protect the Fire function
 	FActorSpawnParameters SpawnInfo;
 	//GetWorld()->SpawnActor<AProjectile>(BP_Projectile,Location, Rotation, SpawnInfo);

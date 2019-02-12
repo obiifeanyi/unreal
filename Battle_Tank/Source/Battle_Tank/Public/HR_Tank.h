@@ -50,5 +50,6 @@ protected:
 	UTankAimAtComponent* AimingComponent;
 	UPROPERTY(BlueprintReadOnly)
 	UTankMovementComponent* MovementComponent;
+	//Gets the Aiming component for the Tank
 	
-};
+	};

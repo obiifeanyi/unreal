@@ -1,13 +1,23 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "public/HR_TankPlayerController.h"
-
+#include "TankAimAtComponent.h"
 
 void AHR_TankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto ControlledTank = GetControlledTank();
-	//UE_LOG(LogTemp, Warning, TEXT("The Possessed Tank is %s"), *ControlledTank->GetName());	//Log possessed tank name
+	GetControlledTank();
+	
+	//Blueprint Event AimingCompnent filled out
+	auto AimingComp = GetControlledTank()->FindComponentByClass<UTankAimAtComponent>();
+	if (AimingComp)
+	{
+		FoundAimingComponent(AimingComp);// putting what
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No aiming component was found"))
+	}
 }
 
 void AHR_TankPlayerController::Tick(float DeltaSeconds)

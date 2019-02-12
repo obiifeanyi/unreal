@@ -46,5 +46,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurrent* Turrent = nullptr;
 	//
-		EFiringState FiringState = EFiringState::Locked;
+		EFiringState FiringState = EFiringState::Aim;
 };
