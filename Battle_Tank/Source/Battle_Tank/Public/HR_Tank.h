@@ -8,7 +8,6 @@
 
 class UTankAimAtComponent;
 class AProjectile;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLE_TANK_API AHR_Tank : public APawn
@@ -47,9 +46,5 @@ protected:
 	
 	//Components pointers
 	UPROPERTY(BlueprintReadOnly)
-	UTankAimAtComponent* AimingComponent;
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* MovementComponent;
-	//Gets the Aiming component for the Tank
-	
+	UTankAimAtComponent* AimingComponent;	
 	};

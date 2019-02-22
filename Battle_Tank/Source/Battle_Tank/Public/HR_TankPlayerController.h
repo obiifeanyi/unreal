@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HR_Tank.h"
 #include "GameFramework/PlayerController.h"
 #include "HR_TankPlayerController.generated.h"
 
@@ -22,7 +21,7 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	AHR_Tank* GetControlledTank() const;
+	class AHR_Tank* GetControlledTank() const;
 
 	//Blueprint Event to find Aiming Component
 	UFUNCTION(BlueprintImplementableEvent,Category = "SetUp")

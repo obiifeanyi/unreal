@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "HR_Tank.h"
+
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "HR_TankAiController.generated.h"
@@ -10,6 +10,7 @@
 /**
  * 
  */
+
 UCLASS()
 class BATTLE_TANK_API AHR_TankAiController : public AAIController
 {
@@ -21,7 +22,7 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	//Controlled Tank
-	AHR_Tank* ControlledTank = nullptr;
+	class AHR_Tank* ControlledTank = nullptr;
 	//Player Tank
-	AHR_Tank* PlayerTank = nullptr;	
+	class AHR_Tank* PlayerTank = nullptr;
 };

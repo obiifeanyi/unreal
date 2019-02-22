@@ -2,6 +2,7 @@
 
 #include "TankMovementComponent.h"
 #include "TankTracks.h"
+//Depends on Inputs from human. BP
 
 void UTankMovementComponent::Initialzier(UTankTracks* LeftTrack, UTankTracks* RightTrack)
 {
