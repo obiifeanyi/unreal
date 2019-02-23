@@ -26,59 +26,64 @@ public:
 	
 	// Sets default values for this component's properties
 	UTankAimAtComponent();
-	
-	// Called every frame
-		virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	//Get Hitlocation from the controller
-		void TankAimAt(FVector HitLocation);
+	//Get Hit-location from the controller
+	void TankAimAt(FVector HitLocation);
 
 	//Called in BP to fire.
-		UFUNCTION(BlueprintCallable, Category = "Tank")
+	UFUNCTION(BlueprintCallable, Category = "Tank")
 		void Fire();
 
 protected:
 
 	// Called when the game starts
-		virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
+	
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 
 	//Initialization of Barrel and Turrent
-		UFUNCTION(BlueprintCallable, Category = "SetUp")
+	UFUNCTION(BlueprintCallable, Category = "SetUp")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurrent* TurrentToSet);
 	
 	//Gets the firing stated to pass to UI aim
-		UFUNCTION(BlueprintCallable)
-			EFiringState GetFiringState () const;
+	UFUNCTION(BlueprintCallable)
+		EFiringState GetFiringState () const;
 
 	//Projectile for tank
-		UPROPERTY(EditAnywhere, Category = "Tank")
+	UPROPERTY(EditAnywhere, Category = "Tank")
 		TSubclassOf<class AProjectile> BPProjectile;
 
-		UPROPERTY(EditDefaultsOnly, Category = "Tank")
+	UPROPERTY(EditDefaultsOnly, Category = "Tank")
 		float LauchSpeed = 10000;
 
-		UPROPERTY(EditAnywhere,Category = "Firing")
-			float FiringRate = 3;
+	UPROPERTY(EditAnywhere,Category = "Firing")
+		float FiringRate = 3;
 
 private:
 
 	//Set Direction Of Barrel
-		void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector AimDirection);
 	
 	//Set Barrel and Turrent
-		UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;
 	
-		UTankTurrent* Turrent = nullptr;
+	UTankTurrent* Turrent = nullptr;
 
-		EFiringState FiringState = EFiringState::Aim;
+	EFiringState FiringState = EFiringState::Aim;
 
-		//If the tank can fire projectile based on timer.
-		void SetCanFire(float RatePerSecond);
+	//If the tank can fire projectile based on timer.
+	void SetCanFire(float RatePerSecond);
 
-		//Can fire system
+	//Can fire system
 		bool bCanFire = false;
 		bool JustFired = false;
 		float Counter = 0;
 		float OffsetTimer = 0;
+
+		float LastReloadTime;
+		bool IsBarrelMoving();
+		FVector AimDirection;
 
 };

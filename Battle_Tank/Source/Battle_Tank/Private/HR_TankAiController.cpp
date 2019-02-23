@@ -10,14 +10,18 @@
 void AHR_TankAiController::BeginPlay()
 {
 	Super::BeginPlay();
-	//Setters
-	ControlledTank = Cast<AHR_Tank>(GetPawn());
-	PlayerTank = Cast<AHR_Tank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	
+	ControlledTank = GetPawn();
+	PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	if (ensure(ControlledTank || PlayerTank)) {
 	AimingComponent = ControlledTank->FindComponentByClass<UTankAimAtComponent>();
+	}
 }
 
 void AHR_TankAiController::Tick(float DeltaSeconds)
 {
+
 	Super::Tick(DeltaSeconds);
 
 	if (AimingComponent)

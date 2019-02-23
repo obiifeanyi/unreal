@@ -33,9 +33,9 @@ void AHR_TankPlayerController::AimTowardCrossHair()
 
 APawn* AHR_TankPlayerController::GetControlledTank() const
 {	
-	auto ControlledTank = GetPawn();
-	if (!ensure(ControlledTank)) { return nullptr; }
-	return ControlledTank;
+	if (!ensure(GetPawn())){ return nullptr;}
+
+	return GetPawn();
 }
 
 

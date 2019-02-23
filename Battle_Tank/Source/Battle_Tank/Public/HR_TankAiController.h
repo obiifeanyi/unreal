@@ -20,14 +20,17 @@ class BATTLE_TANK_API AHR_TankAiController : public AAIController
 private:
 
 	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaSeconds) override;
+
 	//Controlled Tank
-	class AHR_Tank* ControlledTank = nullptr;
+	class APawn* ControlledTank = nullptr;
+
 	//Player Tank
-	class AHR_Tank* PlayerTank = nullptr;
+	class APawn* PlayerTank = nullptr;
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly)
+	//Getting access to the Aim component found on Possessed Tank
 	class UTankAimAtComponent* AimingComponent;
 };
