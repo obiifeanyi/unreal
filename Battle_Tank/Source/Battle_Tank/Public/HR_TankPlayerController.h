@@ -21,11 +21,15 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	class AHR_Tank* GetControlledTank() const;
+	class APawn* GetControlledTank() const;
 
 	//Blueprint Event to find Aiming Component
 	UFUNCTION(BlueprintImplementableEvent,Category = "SetUp")
 	void FoundAimingComponent(UTankAimAtComponent* AimingCompRef);
+
+	//Components pointers
+	UPROPERTY(BlueprintReadOnly)
+	class UTankAimAtComponent* AimingComponent;
 
 
 private:
@@ -42,12 +46,12 @@ private:
 	bool RayTraceLookDirectionToHitLocation(FVector, FVector&)const;
 
 	UPROPERTY(EditAnywhere, category = "Tank")
-		float Reach = 1000000; //TODO Reach should be a Tank pawn property that is public.
+		float Reach = 1000000;
 
 	UPROPERTY(EditAnywhere, category = "Tank")
 		float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere, category = "Tank")
-		float CrossHairYLocation = 0.333;
+		float CrossHairYLocation = 0.4;
 
 };

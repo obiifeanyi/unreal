@@ -1,10 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HR_Tank.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
-#include "TankTurrent.h"
-#include "TankAimAtComponent.h"
 
 
 // Sets default values
@@ -27,29 +23,4 @@ void AHR_Tank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
-
-
-//Get Hitlocation from the controller
-void AHR_Tank::TankAimAt(FVector HitLocation)
-{
-	if(!AimingComponent)return;
-	AimingComponent->TankAimComp(HitLocation, LauchSpeed);
-}
-
-void AHR_Tank::Fire(){
-	if(!AimingComponent)return;
-	//TODO Protect the Fire function
-	FActorSpawnParameters SpawnInfo;
-	//GetWorld()->SpawnActor<AProjectile>(BP_Projectile,Location, Rotation, SpawnInfo);
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>
-		(
-			BPProjectile,
-			Barrel->GetSocketLocation("ProjectileStart"),
-			Barrel->GetSocketRotation("ProjectileStart"),
-			SpawnInfo
-		);
-	//
-	Projectile->LaunchProjectile(LauchSpeed);
-}
-
 

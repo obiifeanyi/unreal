@@ -25,4 +25,9 @@ private:
 	class AHR_Tank* ControlledTank = nullptr;
 	//Player Tank
 	class AHR_Tank* PlayerTank = nullptr;
+
+protected:
+
+	UPROPERTY(BlueprintReadOnly)
+	class UTankAimAtComponent* AimingComponent;
 };

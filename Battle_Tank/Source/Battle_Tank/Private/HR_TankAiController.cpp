@@ -1,6 +1,7 @@
 // A Fun open field tank game with wacky controls.
 
 #include "../Public/HR_TankAiController.h"
+#include "TankAimAtComponent.h"
 #include "HR_Tank.h"
 //Indirectly dependency on TankMovment component Navigation mesh.
 
@@ -12,15 +13,17 @@ void AHR_TankAiController::BeginPlay()
 	//Setters
 	ControlledTank = Cast<AHR_Tank>(GetPawn());
 	PlayerTank = Cast<AHR_Tank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	AimingComponent = ControlledTank->FindComponentByClass<UTankAimAtComponent>();
 }
 
 void AHR_TankAiController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (ControlledTank)
+
+	if (AimingComponent)
 	{
-		ControlledTank->TankAimAt(PlayerTank->GetActorLocation());
-		//ControlledTank->Fire();
+		AimingComponent->TankAimAt(PlayerTank->GetActorLocation());
+		AimingComponent->Fire();
 	}
 
 	

@@ -4,6 +4,7 @@
 #include "TankAimAtComponent.h"
 #include "TankBarrel.h"
 #include "TankTurrent.h"
+#include "Projectile.h"
 #include <Kismet/GameplayStatics.h>
 
 
@@ -40,14 +41,10 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+	SetCanFire(FiringRate);
 }
 
-EFiringState UTankAimAtComponent::GetFiringState() const
-{
-	return FiringState;
-}
-
-void UTankAimAtComponent::TankAimComp(FVector AimAt,float LauchSpeed)
+void UTankAimAtComponent::TankAimAt(FVector AimAt)
 {
 	if (!Barrel)return;
 
@@ -83,8 +80,68 @@ void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
+	//	Moves the Turrent and Barrel
 	if (!Turrent)return;
-	Turrent->Yaw(DeltaRotator.Yaw);
+	Turrent->Yaw(DeltaRotator.Yaw); //Calls function on Turrent
 	if (!Barrel)return;
 	Barrel->Elevate(DeltaRotator.Pitch);
+
+	//Set Firing State to Locked
+	if(BarrelRotator.Equals(AimAsRotator,5)){
+		FiringState = EFiringState::Locked; // TODO remove from here it is constant being override by Aim
+	}
+	//UE_LOG(LogTemp, Warning, TEXT("Locked %s"),BarrelRotator.Equals(AimAsRotator, 5) ? TEXT("True") : TEXT("False"))
+}
+
+void UTankAimAtComponent::SetCanFire(float RatePerSecond)
+{
+
+	float Timer = GetWorld()->GetTimeSeconds();
+
+	//Reset the clock
+	if (JustFired){
+		OffsetTimer = Timer;
+		JustFired = false;
+	}
+
+	//Can the tank fire
+	Counter = Timer - OffsetTimer;
+	
+	if (Counter > RatePerSecond){
+		bCanFire = true;
+		FiringState = EFiringState::Aim; //TODO remove and set in Firing state function
+	}
+	else{
+		bCanFire = false;
+		FiringState = EFiringState::Reloading; //TODO remove and set in Firing state function
+	}
+
+}
+
+//Fire Out a Projectile.
+void UTankAimAtComponent::Fire() {
+
+	if (!ensure(Barrel || BPProjectile))return;
+
+	if(bCanFire)
+	{
+		FActorSpawnParameters SpawnInfo;
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>
+			(
+				BPProjectile,
+				Barrel->GetSocketLocation("ProjectileStart"),
+				Barrel->GetSocketRotation("ProjectileStart"),
+				SpawnInfo
+			);
+		//Launch the created projectile
+		Projectile->LaunchProjectile(LauchSpeed);
+		JustFired = true; //Reset counter in SetCanFire
+	}
+
+}
+
+//
+EFiringState UTankAimAtComponent::GetFiringState() const
+{
+	return FiringState;
 }

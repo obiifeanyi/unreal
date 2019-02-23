@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//Fill out your copyright notice in the Description page of Project Settings.
 
 #include "public/HR_TankPlayerController.h"
-#include "HR_Tank.h"
 #include "TankAimAtComponent.h"
+#include "HR_Tank.h"
 
 void AHR_TankPlayerController::BeginPlay()
 {
@@ -10,40 +10,34 @@ void AHR_TankPlayerController::BeginPlay()
 	GetControlledTank();
 	
 	//Blueprint Event AimingCompnent filled out
-	auto AimingComp = GetControlledTank()->FindComponentByClass<UTankAimAtComponent>();
-	if (AimingComp)
-	{
-		FoundAimingComponent(AimingComp);// putting what
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No aiming component was found"))
-	}
+	AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimAtComponent>();
+	if (AimingComponent){FoundAimingComponent(AimingComponent);}
 }
 
 void AHR_TankPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	
 	AimTowardCrossHair();
-}
-
-AHR_Tank* AHR_TankPlayerController::GetControlledTank() const
-{	
-	auto ControlledTank = GetPawn();
-	if (!ControlledTank) { return nullptr; }
-	return Cast<AHR_Tank>(ControlledTank);
 }
 
 void AHR_TankPlayerController::AimTowardCrossHair()
 {
-	if (!GetControlledTank()) { return; }
-
+	if (!AimingComponent){ return; }
 	FVector HitLocation; //OUT parameter
 	if (GetSightAimRay(HitLocation))
-	{
-		GetControlledTank()->TankAimAt(HitLocation);
+	{		
+		AimingComponent->TankAimAt(HitLocation);
 	}
 }
+
+APawn* AHR_TankPlayerController::GetControlledTank() const
+{	
+	auto ControlledTank = GetPawn();
+	if (!ensure(ControlledTank)) { return nullptr; }
+	return ControlledTank;
+}
+
 
 bool AHR_TankPlayerController::GetSightAimRay(FVector& HitLocation) const
 {
@@ -59,7 +53,6 @@ bool AHR_TankPlayerController::GetSightAimRay(FVector& HitLocation) const
 	{
 		if (RayTraceLookDirectionToHitLocation(LookAtDirection, HitLocation))
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("The LookAtDirection is %s"), *LookAtDirection.ToString());
 			return true;
 		}
 

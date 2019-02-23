@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "HR_Tank.generated.h"
 
-class UTankAimAtComponent;
+
 class AProjectile;
 
 UCLASS()
@@ -18,33 +18,19 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-	//Projectile for tank
-	UPROPERTY(EditAnywhere, Category = "Tank")
-		TSubclassOf<AProjectile> BPProjectile;
-
-	UPROPERTY(EditAnywhere, Category = "Tank")
-		float LauchSpeed = 1000; // TODO Find sensible value
-
-	//Static mesh barrel from tank
-	class UTankBarrel* Barrel = nullptr; //TODO remove barrel
-
-
+	
+		
 public:
 
 	// Sets default values for this pawn's properties
-	AHR_Tank();
-
-	//
-	void TankAimAt(FVector HitLocation);
-
-	UFUNCTION(BlueprintCallable, Category = "Tank")
-		void Fire();
+		AHR_Tank();
 
 protected:
-
-	virtual void BeginPlay() override;
 	
-	//Components pointers
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimAtComponent* AimingComponent;	
-	};
+	//
+		virtual void BeginPlay() override;
+	
+	//The Aiming component Use to Turn the barrel
+		UPROPERTY(BlueprintReadOnly)
+		class UTankAimAtComponent* AimingComponent;  //Remove when refractoring fire
+};
