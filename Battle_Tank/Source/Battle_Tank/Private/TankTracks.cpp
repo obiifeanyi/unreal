@@ -2,8 +2,22 @@
 
 #include "TankTracks.h"
 
+UTankTracks::UTankTracks()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+}
 
-
+void UTankTracks::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	
+	//Calculating Side-ways force to apply friction for side-ways force. (F = ma)
+	float SlippageAmount = FVector::DotProduct(GetComponentVelocity(),GetRightVector());
+	float Acceleration = SlippageAmount/DeltaTime;
+	float TankMass = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent())->GetMass();
+	auto ForceToApply = -(TankMass * Acceleration * GetRightVector());
+	UE_LOG(LogTemp, Warning, TEXT("component right vector %f"), SlippageAmount); //TODO why is 
+	//AddForceAtLocation(ForceToApply,GetOwner()->GetRootComponent()->GetComponentLocation());
+}
 
 void UTankTracks::SetThrottle(float speed)
 {

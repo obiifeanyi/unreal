@@ -25,6 +25,7 @@ void UTankAimAtComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+	LastReloadTime = FPlatformTime::Seconds();
 	
 }
 
@@ -41,7 +42,24 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
-	SetCanFire(FiringRate);
+
+	//SetCanFire(FiringRate);
+
+	if ((FPlatformTime::Seconds() - LastReloadTime) < FiringRate){ 
+		FiringState = EFiringState::Reloading;
+	}
+	else if (!(IsBarrelMoving())){
+		FiringState = EFiringState::Aim;
+	}
+	else{
+		FiringState = EFiringState::Locked;
+	}
+}
+
+bool UTankAimAtComponent::IsBarrelMoving()
+{
+	auto BarrelForward = Barrel->GetForwardVector();
+	return BarrelForward.Equals(AimDirection,0.05);
 }
 
 void UTankAimAtComponent::TankAimAt(FVector AimAt)
@@ -64,7 +82,7 @@ void UTankAimAtComponent::TankAimAt(FVector AimAt)
 			ESuggestProjVelocityTraceOption::DoNotTrace
 		);
 
-	FVector AimDirection = OutProjectileVelocity.GetSafeNormal();
+	AimDirection = OutProjectileVelocity.GetSafeNormal();
 
 	
 	if(bHasAim)
@@ -87,9 +105,9 @@ void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 
 	//Set Firing State to Locked
-	if(BarrelRotator.Equals(AimAsRotator,5)){
-		FiringState = EFiringState::Locked; // TODO remove from here it is constant being override by Aim
-	}
+// 	if(BarrelRotator.Equals(AimAsRotator,5)){
+// 		FiringState = EFiringState::Locked; // TODO remove from here it is constant being override by Aim
+// 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Locked %s"),BarrelRotator.Equals(AimAsRotator, 5) ? TEXT("True") : TEXT("False"))
 }
 
@@ -123,7 +141,8 @@ void UTankAimAtComponent::Fire() {
 
 	if (!ensure(Barrel || BPProjectile))return;
 
-	if(bCanFire)
+
+	if(FiringState != EFiringState::Reloading) //TODO if want to use SetCanFire function change to bCanFire variable.
 	{
 		FActorSpawnParameters SpawnInfo;
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>
@@ -136,6 +155,8 @@ void UTankAimAtComponent::Fire() {
 		//Launch the created projectile
 		Projectile->LaunchProjectile(LauchSpeed);
 		JustFired = true; //Reset counter in SetCanFire
+
+		LastReloadTime = FPlatformTime::Seconds();
 	}
 
 }

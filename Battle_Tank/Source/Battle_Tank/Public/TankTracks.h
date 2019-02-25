@@ -19,8 +19,16 @@ public:
 	void SetThrottle(float speed);
 
 private:
+
+	//Constructor
+	UTankTracks();
+
+	//Tick Function
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+
 	UPROPERTY(EditDefaultsOnly, Category = "SimonCustom")
-	float MAXSPEED = 150000000.0;
+	float MAXSPEED = 110000000.0;
 
 	
 	
