@@ -27,12 +27,14 @@ void AHR_TankAiController::Tick(float DeltaSeconds)
 	if (AimingComponent)
 	{
 		AimingComponent->TankAimAt(PlayerTank->GetActorLocation());
-		AimingComponent->Fire();
+		
+		if (AimingComponent->GetFiringState() == EFiringState::Locked)
+		{
+			AimingComponent->Fire();
+		}
 	}
 
-	
-	MoveToActor(PlayerTank,1000);
-
+	MoveToActor(PlayerTank,AcceptanceRadiusTankMovement); //TODO make it a UProperty and test with BP version
 }
 
 

@@ -25,7 +25,8 @@ void AHR_TankPlayerController::AimTowardCrossHair()
 {
 	if (!AimingComponent){ return; }
 	FVector HitLocation; //OUT parameter
-	if (GetSightAimRay(HitLocation))
+	bool bGotHitLocation = GetSightAimRay(HitLocation);
+	if (bGotHitLocation)
 	{		
 		AimingComponent->TankAimAt(HitLocation);
 	}

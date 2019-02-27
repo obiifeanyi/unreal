@@ -23,19 +23,20 @@ private:
 	//Constructor
 	UTankTracks();
 
-	//Tick Function
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
-
 	//Begin Play
 	virtual void BeginPlay() override;
 
-	void SideWaysFriction(float DeltaTime);
-
-
-	UPROPERTY(EditDefaultsOnly, Category = "SimonCustom")
-	float MAXSPEED = 110000000.0;
+	void SideWaysFriction();
+	   
+	float Throttle = 0;
 
 protected:
+
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	
+	UPROPERTY(EditDefaultsOnly, Category = "SimonCustom")
+		float MAXSPEED = 150000000.0;
+
+	void DriveThrottle();
 };

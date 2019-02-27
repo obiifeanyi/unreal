@@ -33,4 +33,8 @@ protected:
 
 	//Getting access to the Aim component found on Possessed Tank
 	class UTankAimAtComponent* AimingComponent;
+
+	//How close the Tank can get to me.
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float AcceptanceRadiusTankMovement = 2000.0f;
 };

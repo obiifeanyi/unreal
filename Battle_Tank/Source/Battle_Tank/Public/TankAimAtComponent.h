@@ -34,6 +34,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tank")
 		void Fire();
 
+	//Gets the firing stated to pass to UI aim and used  AI to fire.
+	UFUNCTION(BlueprintCallable)
+		EFiringState GetFiringState () const;
+
 protected:
 
 	// Called when the game starts
@@ -47,9 +51,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "SetUp")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurrent* TurrentToSet);
 	
-	//Gets the firing stated to pass to UI aim
-	UFUNCTION(BlueprintCallable)
-		EFiringState GetFiringState () const;
 
 	//Projectile for tank
 	UPROPERTY(EditAnywhere, Category = "Tank")

@@ -4,33 +4,27 @@
 
 UTankTracks::UTankTracks()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 	Cast<UStaticMeshComponent>(this)->SetNotifyRigidBodyCollision(true);
 }
 void UTankTracks::BeginPlay()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("IT begun"));
 	OnComponentHit.AddDynamic(this, &UTankTracks::OnHit);
-}
-
-void UTankTracks::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
-{
-	
-	SideWaysFriction(DeltaTime);
-	//On hit event
 }
 
 void UTankTracks::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp,Warning,TEXT("Hitting Floor"));
-	//Can drive
-	//Can add side ways friction
+	//UE_LOG(LogTemp,Warning,TEXT("Throttle is %f"), Throttle);
+	DriveThrottle();
+	SideWaysFriction();
+	Throttle = 0; //Reset Throttle
 }
 
-void UTankTracks::SideWaysFriction(float DeltaTime)
+void UTankTracks::SideWaysFriction()
 {
 	//Calculating Side-ways force to apply friction for side-ways force. (F = ma)
 	float SlippageAmount = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
+	float DeltaTime = GetWorld()->GetDeltaSeconds();
 	auto Acceleration = -(SlippageAmount / DeltaTime * GetRightVector());
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	auto ForceToApply = (TankRoot->GetMass() * Acceleration) / 2;
@@ -39,8 +33,13 @@ void UTankTracks::SideWaysFriction(float DeltaTime)
 
 void UTankTracks::SetThrottle(float speed)
 {
+	Throttle = FMath::Clamp<float>(Throttle + speed,-1,1);  //TODO fix throttle hanging problem.
+}
+
+void UTankTracks::DriveThrottle()
+{
 	//set amount of force to apply
-	FVector AppliedForce = GetForwardVector() * MAXSPEED * speed * GetWorld()->GetDeltaSeconds();
+	FVector AppliedForce = GetForwardVector() * MAXSPEED * Throttle * GetWorld()->GetDeltaSeconds();
 	FVector TrackLocation = GetComponentLocation();
 	//add force
 	auto RootComponent = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
