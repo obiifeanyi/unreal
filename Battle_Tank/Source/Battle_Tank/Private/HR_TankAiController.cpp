@@ -1,7 +1,7 @@
 // A Fun open field tank game with wacky controls.
 
 #include "../Public/HR_TankAiController.h"
-#include "TankAimAtComponent.h"
+#include "TankAim_Component/TankAimAtComponent.h"
 #include "HR_Tank.h"
 //Indirectly dependency on TankMovment component Navigation mesh.
 

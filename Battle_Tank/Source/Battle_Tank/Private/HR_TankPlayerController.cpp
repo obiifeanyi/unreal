@@ -1,7 +1,7 @@
 //Fill out your copyright notice in the Description page of Project Settings.
 
 #include "public/HR_TankPlayerController.h"
-#include "TankAimAtComponent.h"
+#include "TankAim_Component/TankAimAtComponent.h"
 #include "HR_Tank.h"
 
 void AHR_TankPlayerController::BeginPlay()
