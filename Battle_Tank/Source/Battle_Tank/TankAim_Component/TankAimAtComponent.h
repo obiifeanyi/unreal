@@ -14,7 +14,8 @@ enum class EFiringState : uint8
 {
 	Aim,
 	Locked,
-	Reloading
+	Reloading,
+	OutOfAmmo
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -51,6 +52,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "SetUp")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurrent* TurrentToSet);
 	
+	UFUNCTION(BlueprintCallable,Category = "Firing")
+		int32 GetAmmoAmount () const;
 
 	//Projectile for tank
 	UPROPERTY(EditAnywhere, Category = "Tank")
@@ -61,6 +64,9 @@ protected:
 
 	UPROPERTY(EditAnywhere,Category = "Firing")
 		float FiringRate = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		int32 Ammo = 5;
 
 private:
 
@@ -86,5 +92,7 @@ private:
 		float LastReloadTime;
 		bool IsBarrelMoving();
 		FVector AimDirection;
+
+
 
 };

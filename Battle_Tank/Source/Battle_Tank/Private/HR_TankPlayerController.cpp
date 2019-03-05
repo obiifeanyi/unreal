@@ -83,12 +83,11 @@ bool AHR_TankPlayerController::RayTraceLookDirectionToHitLocation(FVector LookDi
 	FVector Start = PlayerCameraManager->GetCameraLocation();
 	FVector End = Start + LookDirection * Reach;
 
-	if (GetWorld()->LineTraceSingleByChannel(
-			RayTrace, 
-			Start, 
-			End, 
-			ECollisionChannel::ECC_Visibility)
-		)
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(GetPawn());
+	bool bGotHitResult = GetWorld()->LineTraceSingleByChannel(RayTrace, Start, End, ECollisionChannel::ECC_Visibility, CollisionParams);
+	
+	if (bGotHitResult)
 	{
 		HitLocation = RayTrace.Location;
 		return true;

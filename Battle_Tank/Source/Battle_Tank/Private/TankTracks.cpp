@@ -16,7 +16,7 @@ void UTankTracks::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	//UE_LOG(LogTemp,Warning,TEXT("Throttle is %f"), Throttle);
 	DriveThrottle();
-	SideWaysFriction();
+	//SideWaysFriction();
 	Throttle = 0; //Reset Throttle
 }
 

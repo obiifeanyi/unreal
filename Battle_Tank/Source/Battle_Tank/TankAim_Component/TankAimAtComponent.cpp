@@ -48,12 +48,20 @@ void UTankAimAtComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	if ((FPlatformTime::Seconds() - LastReloadTime) < FiringRate){ 
 		FiringState = EFiringState::Reloading;
 	}
+	else if (Ammo <= 0) {
+		FiringState = EFiringState::OutOfAmmo;
+	}
 	else if (!(IsBarrelMoving())){
 		FiringState = EFiringState::Aim;
 	}
 	else{
 		FiringState = EFiringState::Locked;
 	}
+}
+
+int32 UTankAimAtComponent::GetAmmoAmount () const
+{
+	return Ammo;
 }
 
 bool UTankAimAtComponent::IsBarrelMoving()
@@ -101,7 +109,7 @@ void UTankAimAtComponent::MoveBarrelTowards(FVector AimDirection)
 	//	Moves the Turrent and Barrel
 	if (!Turrent)return; //Bait Out.
 
-	if (DeltaRotator.Yaw < 180){
+	if (FMath::Abs(DeltaRotator.Yaw) < 180){
 		Turrent->Yaw(DeltaRotator.Yaw);
 	}
 	else{
@@ -136,10 +144,17 @@ void UTankAimAtComponent::SetCanFire(float RatePerSecond)
 		bCanFire = true;
 		FiringState = EFiringState::Aim; //TODO remove and set in Firing state function
 	}
-	else{
+	else if (Ammo == 0) {
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if (Counter < RatePerSecond) {
 		bCanFire = false;
 		FiringState = EFiringState::Reloading; //TODO remove and set in Firing state function
 	}
+	else {
+		FiringState = EFiringState::Aim;
+	}
+
 
 }
 
@@ -149,8 +164,7 @@ void UTankAimAtComponent::Fire() {
 	if (!ensure(Barrel || BPProjectile))return;
 
 
-	if(FiringState != EFiringState::Reloading) //TODO if want to use SetCanFire function change to bCanFire variable.
-	{
+	if(FiringState == EFiringState::Locked || FiringState == EFiringState::Aim){
 		FActorSpawnParameters SpawnInfo;
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>
 			(
@@ -164,6 +178,7 @@ void UTankAimAtComponent::Fire() {
 		JustFired = true; //Reset counter in SetCanFire
 
 		LastReloadTime = FPlatformTime::Seconds();
+		Ammo--;
 	}
 
 }

@@ -18,6 +18,7 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)override;
 	
 		
 public:
@@ -28,9 +29,9 @@ public:
 protected:
 	
 	//
-		virtual void BeginPlay() override;
-	
-	//The Aiming component Use to Turn the barrel
-		UPROPERTY(BlueprintReadOnly)
-		class UTankAimAtComponent* AimingComponent;  //Remove when refractoring fire
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly,Category = "Life")
+		int32 PlayerHealth= 100;
+
 };
