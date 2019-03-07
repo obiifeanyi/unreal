@@ -17,19 +17,24 @@ class BATTLE_TANK_API AHR_TankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 protected:
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+		void OnTankDeath();
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	class APawn* GetControlledTank() const;
+		class APawn* GetControlledTank() const;
 
 	//Blueprint Event to find Aiming Component
 	UFUNCTION(BlueprintImplementableEvent,Category = "SetUp")
-	void FoundAimingComponent(UTankAimAtComponent* AimingCompRef);
+		void FoundAimingComponent(UTankAimAtComponent* AimingCompRef);
 
 	//Components pointers
 	UPROPERTY(BlueprintReadOnly)
-	class UTankAimAtComponent* AimingComponent;
+		class UTankAimAtComponent* AimingComponent;
 
 
 private:

@@ -49,6 +49,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	PrtHitExplosion->Activate();
 	PrtProjectileTrail->Deactivate();
 	ExplosionForce->Activate();
+	ExplosionForce->FireImpulse();
 	CollisionMesh->DestroyComponent();
 	SetRootComponent(PrtHitExplosion);
 	

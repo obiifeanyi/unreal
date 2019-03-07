@@ -15,7 +15,12 @@ AHR_Tank::AHR_Tank()
 void AHR_Tank::BeginPlay()
 {
 	Super::BeginPlay();
-	//UE_LOG(LogTemp, Warning, TEXT("DONKEY:Tank_cpp BeginPlay"))
+	CurrentHealth = PlayerHealth;
+}
+
+float AHR_Tank::GetTankHealth() const
+{
+	return (float)CurrentHealth / (float)PlayerHealth;
 }
 
 // Called to bind functionality to input
@@ -29,11 +34,12 @@ float AHR_Tank::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 {
 	Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 
-
 	//Player health decreased by damage
-	PlayerHealth = FMath::Clamp<int32>(PlayerHealth - int32(Damage),0,PlayerHealth);
+	CurrentHealth = FMath::Clamp<int32>(CurrentHealth - int32(Damage),0,PlayerHealth);
 
-	UE_LOG(LogTemp, Warning, TEXT("Player's is %i"), PlayerHealth);
-	return Damage;
+	if (CurrentHealth <= 0) {
+		TankDeath.Broadcast();
+	}
+	return 0.0;
 }
 

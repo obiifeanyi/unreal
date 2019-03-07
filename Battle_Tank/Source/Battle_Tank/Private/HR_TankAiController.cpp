@@ -19,6 +19,22 @@ void AHR_TankAiController::BeginPlay()
 	}
 }
 
+void AHR_TankAiController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	//Get the pawn
+	if (InPawn) {
+		auto PossessedTank = Cast<AHR_Tank>(GetPawn());
+		PossessedTank->TankDeath.AddUniqueDynamic(this, &AHR_TankAiController::TankDeath);
+	}
+}
+
+void AHR_TankAiController::TankDeath()
+{
+	if (!ensure(GetPawn())) return;
+	GetPawn()->DetachFromControllerPendingDestroy();
+}
+
 void AHR_TankAiController::Tick(float DeltaSeconds)
 {
 

@@ -7,12 +7,15 @@
 #include "HR_Tank.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelegatDeath);
+
 class AProjectile;
 
 UCLASS()
 class BATTLE_TANK_API AHR_Tank : public APawn
 {
 	GENERATED_BODY()
+
 
 private:
 	// Called to bind functionality to input
@@ -23,15 +26,23 @@ private:
 		
 public:
 
-	// Sets default values for this pawn's properties
-		AHR_Tank();
+
+
+	FDelegatDeath TankDeath; //TODO Can i put in private.
 
 protected:
 	
+	// Sets default values for this pawn's properties
+	AHR_Tank();
 	//
 	virtual void BeginPlay() override;
+
+	//Get the Health to be used by UMG
+	UFUNCTION(BlueprintPure,Category = "Life")
+		float GetTankHealth() const;
 
 	UPROPERTY(EditDefaultsOnly,Category = "Life")
 		int32 PlayerHealth= 100;
 
+	int32 CurrentHealth = 0;
 };

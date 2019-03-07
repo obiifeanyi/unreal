@@ -21,6 +21,25 @@ void AHR_TankPlayerController::Tick(float DeltaSeconds)
 	AimTowardCrossHair();
 }
 
+void AHR_TankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		AHR_Tank* Possessed = Cast<AHR_Tank>(GetPawn());
+		if (!ensure(Possessed))return;
+		Possessed->TankDeath.AddUniqueDynamic(this,&AHR_TankPlayerController::OnTankDeath);
+	}
+}
+
+void AHR_TankPlayerController::OnTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Player Dead"));
+	if(!ensure(GetPawn()))return;
+	StartSpectatingOnly();
+}
+
 void AHR_TankPlayerController::AimTowardCrossHair()
 {
 	if (!AimingComponent){ return; }

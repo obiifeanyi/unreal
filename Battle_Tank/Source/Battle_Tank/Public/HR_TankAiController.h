@@ -18,10 +18,13 @@ class BATTLE_TANK_API AHR_TankAiController : public AAIController
 
 
 private:
-
+	
+	
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void SetPawn(APawn* InPawn) override;
 
 	//Controlled Tank
 	class APawn* ControlledTank = nullptr;
@@ -31,10 +34,14 @@ private:
 
 protected:
 
-	//Getting access to the Aim component found on Possessed Tank
-	class UTankAimAtComponent* AimingComponent;
+	UFUNCTION()
+		void TankDeath();
 
 	//How close the Tank can get to me.
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float AcceptanceRadiusTankMovement = 2000.0f;
+		float AcceptanceRadiusTankMovement = 2000.0f;
+
+	//Getting access to the Aim component found on Possessed Tank
+	class UTankAimAtComponent* AimingComponent;
+
 };
